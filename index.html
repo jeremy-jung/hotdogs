@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <div>
+            Hotdogs:
+            <span id="hotdogs">
+            
+            </span>
+        </div>
+        <div>
+            Fries:
+            <span id="fries">
+        
+            </span>
+        </div>
+        <div>
+            Drinks:
+            <span id="drinks">
+        
+            </span>
+        </div>
+        <div>
+            Discount:
+            <span id="discount">
+        
+            </span>
+        </div>
+        <div>
+            Subtotal:
+            <span id="subtotal">
+            
+            </span>
+        </div>
+        <div>
+            Tax:
+            <span id="tax">
+            
+            </span>
+        </div>
+        <div>
+            Total:
+            <span id="total">
+            
+            </span>
+        </div>
+    </body>
+    <script>
+        var itemsElement;
+        var totalElement;
+        var taxElement;
+        var discountElement;
+        var subtotalElement;
+        var hotdogsElement;
+        var drinksElement;
+        var friesElement;
+        
+        window.onload = function() {
+
+
+            totalElement = document.getElementById("total");
+            taxElement = document.getElementById("tax");
+            discountElement = document.getElementById("discount");
+            subtotalElement = document.getElementById("subtotal");
+            hotdogsElement = document.getElementById("hotdogs");
+            drinksElement = document.getElementById("drinks");
+            friesElement = document.getElementById("fries");
+
+            main();
+        }
+
+        function promptUser(callback) {
+            var hotDogsCount = prompt("How many hotdogs would you like?");
+            var friesCount = prompt("How many fries would you like?");
+            var drinksCount = prompt("How many drinks would you like?");
+
+            hotdogsElement.innerHTML = hotDogsCount + " hotdogs at $3.25 is "
+            friesElement.innerHTML = friesCount + " fries at $2.00 is "
+            drinksElement.innerHTML = drinksCount + " drinks at $1.50 is "
+
+            discountElement.innerHTML = "10% discount";
+
+            callback(hotDogsCount, friesCount, drinksCount)
+
+        }
+
+        function main() {
+            promptUser(calculateSubTotal);
+        }
+
+        function calculateSubTotal(hotdogs, fries, sodas) {
+            const hotdogPrice = 3.25;
+            const friesPrice = 2.00;
+            const drinkPrice = 1.50;
+
+            var hotdogTotal = hotdogs * hotdogPrice;
+            var friesTotal = fries * friesPrice;
+            var drinksTotal = sodas * drinkPrice;
+
+            hotdogsElement.innerHTML = hotdogsElement.innerHTML + "$" + hotdogTotal;
+            friesElement.innerHTML = friesElement.innerHTML + "$" + friesTotal;
+            drinksElement.innerHTML = drinksElement.innerHTML + "$" + drinksTotal;
+
+            var subtotal = hotdogTotal + friesTotal + drinksTotal;
+            subtotalElement.innerHTML = "$" + parseFloat(subtotal).toFixed(2);
+
+            applySpecial(subtotal, applyTax);
+        }
+
+        function applySpecial(subtotal, callback) {
+            if ( subtotal >= 20 ) {
+                callback(subtotal*0.9);
+            }
+            callback(subtotal);
+        }
+
+        function applyTax(subtotal) {
+            var tax = subtotal * 0.0625;
+            taxElement.innerHTML = "$" + parseFloat(tax).toFixed(2);
+            var afterTax = subtotal + tax;
+            totalElement.innerHTML = "$" + parseFloat(afterTax).toFixed(2);
+
+        }
+        
+    </script>
+</html>
